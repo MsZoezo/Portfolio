@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+    project: CollectionEntry<"projects">,
+    Content: any,
+}
+
+const { project, Content } = Astro.props;
+---
+
+<article class="project">
+    <img class="project__image" src={project.data.image} alt={`${project.data.title}'s thumbnail'`}>
+    <h1 class="project__title">{project.data.title}</h1>
+    <hr>
+
+    <div class="project__content animationGroup">
+        <Content />
+    </div>
+
+</article>
+
+<style lang="scss" is:global>
+    .project {  
+
+        max-width: 125rem;
+        width: 100%;
+
+        margin: 2.5rem auto;
+
+        &__image {
+            aspect-ratio: 16/9;
+            width: 50%;
+            max-width: 650px;
+            margin: 0 auto;
+
+            display: block;
+
+            border-radius: 1rem;
+
+            margin-bottom: 0.75rem;
+            box-shadow: var(--quartary) 0.75rem 0.75rem;
+        }
+
+        &__title {
+            margin-bottom: 0;
+        }
+
+        & hr {
+            height: 1rem;
+            border: none;
+            width: 90%;
+            margin: 0 auto;
+            margin-bottom: 1.5rem;
+
+            box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.05);
+        }
+    }
+</style>

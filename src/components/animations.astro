@@ -1,0 +1,112 @@
+---
+---
+
+<script>
+    const animationGroups = Array.from(document.getElementsByClassName("animationGroup"));
+    const willAnimates = Array.from(document.getElementsByClassName("willAnimate"));
+
+    const staggeredAnimationGroups = Array.from(document.getElementsByClassName("staggeredAnimationGroup"));
+
+    function shouldShow(elem: Element): boolean {
+        const rect = elem.getBoundingClientRect();
+
+        if(rect.top <= (window.innerHeight || document.documentElement.clientHeight)) return true;
+        return false;
+    }
+
+    function onAnimationScroll(elem: Element, className: string): void {
+        const showable = shouldShow(elem);
+        elem.classList.toggle(className, showable);
+    } 
+
+    function onStaggeredAnimationScroll(group: Element) {
+        let children: HTMLElement[] = [];
+
+        for(const child of group.children) {
+            const showable = shouldShow(child);
+
+            if(!showable) {
+                child.classList.remove("active");
+                continue;
+            }
+
+            if(child.classList.contains("active")) continue;
+
+            children.push(child as HTMLElement);
+        }
+
+        children.forEach((child, index) => {
+            child.style.setProperty("--delay", `${index * 100}ms`);
+            child.classList.add("active");
+        });
+    }
+
+    window.addEventListener("load", () => {
+        animationGroups.forEach(group => onAnimationScroll(group, "animationGroupActive"))
+        willAnimates.forEach(animate => onAnimationScroll(animate, "active"));
+        staggeredAnimationGroups.forEach(group => onStaggeredAnimationScroll(group));
+    });
+
+    window.addEventListener("scroll", () => {
+        animationGroups.forEach(group => onAnimationScroll(group, "animationGroupActive"))
+        willAnimates.forEach(animate => onAnimationScroll(animate, "active"));
+        staggeredAnimationGroups.forEach(group => onStaggeredAnimationScroll(group));
+    });
+</script>
+
+<style is:global>
+    .active, .animationGroupActive > *, .animated {
+        animation: var(--animation, "slideRTL") 0.5s ease-out var(--delay, 0s) 1 alternate both;
+    }
+
+    @keyframes slideRTL {
+        0% {
+            transform: translateX(10%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideLTR {
+        0% {
+            transform: translateX(-10%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideTTB {
+        0% {
+            transform: translateY(-15%);
+        }
+
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideBTT {
+        0% {
+            transform: translateY(15%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+</style>

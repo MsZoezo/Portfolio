@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+
+import Base from "../layouts/base.astro";
+
+import Navigation from "../components/navigation.astro";
+import Header from "../components/header.astro";
+import ProjectPreview from '../components/projects/projectPreview.astro';
+import Contact from "../components/contact.astro";
+import Footer from "../components/footer.astro";
+
+const projects = await getCollection('projects');
+---
+
+<Base title="Home">
+	<Navigation logo="Zoezo" logoLink="#" floating={true} links=
+		{[
+			{text: "About me", link: "#about"},
+			{text: "Projects", link: "#projects"},
+			{text: "Blog", link: "#blog"},
+			{text: "Contact", link: "#contact", special: true}
+		]}
+	/>
+
+	<Header />
+
+	<section class="animationGroup" id="about" style="--animation: slideRTL">
+			<h1 style={"--animation: slideTTB"}>About me</h1>
+			<p style={"--delay: 100ms"}>Hiya! I'm Zoey, A fullstack developer and student at Mediacollege Amsterdam.</p>
+			<h2 style={"--animation: slideLTR; --delay: 200ms"}>My skills</h2>
+			<p style={"--delay: 300ms"}>My strong points lay in the backend with subjects like databases, networking and API's. I'm interested in broadening my frontend and embedded skills. To achieve this goal, I'm working on improving my skills in NextJS, React and C++.</p>
+			<h2 style={"--animation: slideLTR; --delay: 400ms"}>Motivations</h2>
+			<p style={"--delay: 500ms"}>It may sound ambitious, but I aspire to write code that improves the quality of peoples lives by even a little bit. Via for example an app that can give structure back to people's every day life or software that lesser abled people can use to get lost functionality back. Albeit via working for a company or by contributing to open-source projects, this is important to me and it's the reason why I became a developer.
+		</section>
+
+	<section id="projects">
+		<h1 class="willAnimate" style={"--animation: slideTTB"}>Projects</h1>
+		<ul class="staggeredAnimationGroup flex" style="--animation: slideBTT">
+			{projects.map(project => <ProjectPreview project={project} />)}
+		</ul>
+	</section>
+
+	<section id="blog" class="animationGroup">
+		<h1 style="--animation: slideTTB">Blog</h1>
+		<p style="--animation: slideRTL; --delay: 100ms">There are no blog posts as of yet. 🥺</p>
+	</section>
+
+	<Contact />
+	<Footer />
+</Base>
+
+<style lang="scss" is:global>
+	#projects {
+		max-width: 125rem;
+	}
+
+	#blog {
+		text-align: center;
+	}
+
+	.flex {
+		width: 100%;
+		height: auto;
+
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+</style>

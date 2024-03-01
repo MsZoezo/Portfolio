@@ -1,0 +1,69 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+    project: CollectionEntry<"projects">,
+}
+
+const { project } = Astro.props;
+---
+
+<div class="projectPreview">
+    <a href={ project.data.link ?? `/projects/${project.slug}` } target={ project.data.link ? "_blank" : null }><img class="projectPreview_image" src={project.data.image} alt={`${project.data.title} screenshot`} style={`--shadowColour: ${project.data.imageBackground}`} /></a>
+    <ul class="projectPreview_tags">
+        {project.data.tags.map(tag => <li>{tag}</li>)}
+    </ul>
+    <h2>{project.data.title}</h2>
+</div>
+
+<style lang="scss" is:global>
+    .projectPreview {
+        width: calc(50% - 2rem);
+        height: auto;
+
+        padding: 1rem;
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        &_image {
+            aspect-ratio: 16/9;
+            width: 100%;
+
+            border-radius: 1rem;
+
+            transition: transform 0.1s ease-out 0s, box-shadow 0.15s ease-in 0s;
+
+            margin-bottom: 0.75rem;
+
+            &:hover {
+                transform: rotateZ(1deg);
+                box-shadow: var(--quartary) 0.75rem 0.75rem;
+            }
+        }
+
+        &_tags {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            width: 90%;
+
+            & li {
+                font-size: 90%;
+                padding: 0.25rem 0.75rem;
+                border-radius: 1rem;
+                background: #7492b1;
+                color: white;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        .projectPreview {
+            width: 100%;
+        }
+    }
+</style>

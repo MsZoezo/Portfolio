@@ -1,0 +1,127 @@
+---
+import Animations from '../components/animations.astro';
+interface Props {
+    title: string
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name=description content="Zoey's portfolio website">
+    <title>Zoezo - {title}</title>
+
+    <link rel="preload" href="/fonts/Kanit-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Kanit-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Kanit-600.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+</head>
+<body>
+    <Animations />
+    <slot />
+</body>
+</html>
+
+<style is:global>
+    @font-face {
+    font-family: 'Kanit';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: local('Kanit'), url('/fonts/Kanit-400.woff2') format('woff2');
+    }
+
+    @font-face {
+    font-family: 'Kanit';
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: local('Kanit'), url('/fonts/Kanit-500.woff2') format('woff2');
+    }
+
+    @font-face {
+    font-family: 'Kanit';
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: local('Kanit'), url('/fonts/Kanit-600.woff2') format('woff2');
+    }
+
+    :root {
+        --primary: #7492b1;
+        --secondary: #8cadce;
+        --tertiary: #b4d2f0;
+        --quartary: #ddebf8;
+    }
+
+    .Aria {
+        --primary: #ccb0fa;
+        --secondary: #d3bafb;
+        --tertiary: #dac5f9;
+        --quartary: #e3d7fb;
+    }
+
+    *, *::after, *::before {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    font-family: 'Kanit';
+
+    scroll-behavior: smooth;
+    }
+
+    html {
+        font-size: 62.5%;
+    }
+
+    body {
+        font-size: 2rem;
+
+        color: var(--primary);
+
+        min-height: 100vh;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    p {
+        margin-bottom: 1.5rem;
+    }
+
+    h1 {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        text-shadow: .25rem .25rem var(--secondary);
+
+        text-align: center;
+
+        font-weight: 500;
+    }
+
+    h2 {
+        font-size: 3rem;
+        text-shadow: .15rem .15rem var(--secondary);
+
+        font-weight: 500;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    section {
+        scroll-margin-top: 7rem;
+
+        max-width: 75rem;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem 2rem 0 2rem;
+    }
+</style>

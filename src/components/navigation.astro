@@ -1,0 +1,118 @@
+---
+interface Props {
+    logo: string,
+    logoLink: string,
+
+    links: Array<{text: string, link: string, special?: boolean}>,
+    floating?: boolean,
+}
+
+const { logo, logoLink, links, floating } = Astro.props;
+---
+
+<div class:list={["navigation", { "navigation--observed": floating }]} id="navigation">
+    <nav class="navigation__inner">
+        <a class:list={["navigation__logo", "animated"]} style="--animation: slideLTR" href={logoLink}>{logo}</a>
+        
+        {links.map(({text, link, special}, index) => (
+            <a class:list={["navigation__item", "animated", { "navigation__special": special }]} style={`--delay: ${(index + 1) * 150}ms`} href={link}>{text}</a>
+        ))}
+    </nav>
+</div>
+
+<script>
+    const navigation = document.getElementById("navigation")!;
+    
+    const observer = new IntersectionObserver(([element]) => navigation.classList.toggle('navigation--floating', !(element.intersectionRatio < 1)), {threshold: [1], rootMargin: '-1px 0px 0px 0px', root: document.body});
+
+    if(navigation.classList.contains("navigation--observed")) observer.observe(navigation);
+</script>
+
+<style is:global lang="scss">
+    .navigation {
+        width: 100%;
+        height: 7rem;
+
+        background-color: white;
+
+        position: sticky;
+        top: 0;
+
+        z-index: 10000000;
+
+        box-shadow: 0 .5rem .5rem 0 rgba(0,0,0,.05);
+
+        &--observed {
+            box-shadow: none;
+        }
+
+        &--floating {
+            box-shadow: 0 .5rem .5rem 0 rgba(0,0,0,.05);
+        }
+
+        &__inner {
+            max-width: 125rem;
+            height: 100%;
+            width: 100%;
+
+            padding: 0 2rem;
+            margin: 0 auto;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        &__logo {
+            color: var(--primary);
+            font-size: 4.5rem;
+            margin-right: auto;
+            text-shadow: .25rem .25rem var(--secondary);
+
+            margin-right: auto;
+
+            font-weight: 500;
+        }
+
+        &__item {
+            margin: auto 0 auto 1rem;
+            transition: text-shadow .15s ease-in;
+
+            &:hover {
+                text-shadow: .1rem .1rem var(--secondary);
+            }
+
+            --animation: slideTTB;
+
+            &:last-of-type {
+                --animation: slideRTL;
+            }
+        }
+
+        &__special {
+            background-color: var(--primary);
+            color: #fff;
+            margin-left: 1.5rem;
+            transition: box-shadow .15s ease-in;
+            border: .2rem solid var(--primary);
+            border-radius: 1rem;
+            font-weight: 600;
+            height: fit-content;
+            padding: .5rem 1.5rem;
+
+            &:hover {
+                box-shadow: .35rem .35rem var(--secondary);
+            }
+        }
+    }
+
+    @media only screen and (max-width: 550px) {
+        .navigation__item {
+            display: none;
+        }
+
+        .navigation__special {
+            display: initial;
+        }
+    }
+</style>

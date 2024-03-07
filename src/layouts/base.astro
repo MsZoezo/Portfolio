@@ -25,6 +25,14 @@ const { title } = Astro.props;
 </body>
 </html>
 
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.get("aria")) {
+        document.body.classList.add("aria");
+    }
+</script>
+
 <style is:global>
     @font-face {
     font-family: 'Kanit';
@@ -57,7 +65,7 @@ const { title } = Astro.props;
         --quartary: #ddebf8;
     }
 
-    .Aria {
+    .aria {
         --primary: #ccb0fa;
         --secondary: #d3bafb;
         --tertiary: #dac5f9;
